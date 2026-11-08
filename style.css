@@ -22,3 +22,8 @@
 
 /* v0.6: independent BGM and SFX switches */
 .audio-controls{display:flex;gap:5px;flex-wrap:nowrap;align-items:center;justify-content:flex-end}.audio-controls .sound{font-weight:900;white-space:nowrap;min-width:0;padding:7px 9px;font-size:clamp(11px,2.4vw,14px);border-radius:13px}.audio-controls .sound[aria-pressed="false"]{background:#e2d9c9;color:#81756a;border-style:solid}.heading{min-width:0}.subtitle{font-size:clamp(10px,1.8vw,13px)}@media(max-width:370px){.audio-controls .sound{padding:5px 6px;font-size:10px}.doodle{font-size:24px}}
+
+.audio-status{font:600 11px/1.2 sans-serif;text-align:center;color:#6b5b4c;padding:3px;}
+#audioTestBtn{font-size:11px;}
+
+.audio-test-row{display:flex;align-items:center;justify-content:center;gap:8px;min-height:25px}.audio-test-row #audioTestBtn{padding:3px 8px;border-width:1px;font-size:11px;flex:none}.audio-status{text-align:left;}

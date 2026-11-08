@@ -1,9 +1,5 @@
-MOLE POP! v0.6 — 60 second arcade game
-
-Open index.html to play.
-BGM and SFX have independent ON/OFF buttons (saved in the browser).
-Original generated 8-bit farm-style melody changes for CHILL, SPEED, and RUSH phases.
-All assets included. Upload the contents of this folder to the root of your GitHub Pages repository.
-
-Version 0.7: iPhone Safari Web Audio unlock/restart handling.
-Check iPhone Silent Mode and media volume if still silent.
+MOLE POP! v0.8 - iPhone Audio Media Fallback
+Run index.html in browser or upload all root files/folders to GitHub Pages.
+Audio uses real 60-second WAV BGM, short WAV SFX, TEST AUDIO button.
+On iPhone: silent mode off, increase media volume, open in Safari directly, tap TEST AUDIO.
+Do not upload ZIP itself to GitHub.

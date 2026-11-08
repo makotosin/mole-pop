@@ -1,3 +1,5 @@
-MOLE POP! v0.9 iPhone audio diagnostic
-Upload all files and folders to the repository root, including audio/.
-On iPhone: tap TEST AUDIO, then open iPhone AUDIO CHECK and try both native players. Report fileStatus and any errors.
+MOLE POP! v1.0 — public build
+
+Audio diagnostics removed from UI. iPhone-compatible WAV playback, independent BGM/SFX toggles, 60 second game, CHILL TIME and CRAZY MOLE preserved from v0.9.
+
+Upload the contents of this directory (not its enclosing folder) to the root of GitHub Pages repository.

@@ -33,7 +33,7 @@ function setAudioSession(){
 }
 function reportAudio(message){
  audioError=message;
- if(audioStatus)audioStatus.textContent=message;
+ // Keep audio playback unchanged; diagnostics are no longer shown.
 }
 function playSfx(name){
  if(!sfxEnabled)return;
@@ -43,7 +43,7 @@ function playSfx(name){
   a.pause();a.currentTime=0;
   const promise=a.play();
   if(promise&&promise.catch)promise.catch(e=>reportAudio('SFX ERROR: '+(e.name||'play failed')));
- }catch(e){reportAudio('Audio blocked: tap TEST AUDIO');}
+ }catch(e){reportAudio('Audio playback blocked');}
 }
 function playMusic(fromStart=false){
  if(!bgmEnabled || mode!=='playing')return;
@@ -52,11 +52,9 @@ function playMusic(fromStart=false){
   if(fromStart)bgmTrack.currentTime=0;
   const promise=bgmTrack.play();
   if(promise&&promise.then)promise.then(()=>reportAudio('BGM PLAYING')).catch(e=>reportAudio('BGM ERROR: '+(e.name||'play failed')));
- }catch(e){reportAudio('Audio blocked: tap TEST AUDIO');}
+ }catch(e){reportAudio('Audio playback blocked');}
 }
 function stopMusic(){bgmTrack.pause();}
-const audioStatus=document.getElementById('audioStatus');
-const audioTestBtn=document.getElementById('audioTestBtn');
 function runMusic(){} // Music is a single pre-rendered 60-second media file.
 function resetMusicClock(){} // No Web Audio scheduler needed.
 function unlockAudio(){setAudioSession();}
@@ -182,35 +180,5 @@ function pointer(e){
 }
 function frame(t){let dt=Math.min(.05,(t-last)/1000||0);last=t;tick(dt);runMusic();render();requestAnimationFrame(frame);}
 playBtn.addEventListener('click',()=>{if(mode==='paused'){unlockAudio();mode='playing';overlay.hidden=true;last=performance.now();playMusic(false);}else start();});canvas.addEventListener('pointerdown',pointer);bgmBtn.addEventListener('click',()=>{bgmEnabled=!bgmEnabled;try{localStorage.setItem('mole_bgm',bgmEnabled?'on':'off');}catch(e){}showAudioSettings();if(!bgmEnabled)stopMusic();else if(mode==='playing')playMusic(false);});sfxBtn.addEventListener('click',()=>{sfxEnabled=!sfxEnabled;try{localStorage.setItem('mole_sfx',sfxEnabled?'on':'off');}catch(e){}showAudioSettings();if(sfxEnabled)playSfx('hit');});document.addEventListener('keydown',e=>{if(e.key==='Escape' && mode==='paused'){ /* Browser Escape is not overridden. */ }});document.addEventListener('visibilitychange',()=>{if(document.hidden&&mode==='playing'){stopMusic();mode='paused';titleEl.textContent='PAUSED';textEl.textContent='Ready to keep going?';resultEl.hidden=true;playBtn.textContent='RESUME';overlay.hidden=false;}});
-audioTestBtn.addEventListener('click',()=>{
- setAudioSession();reportAudio('TESTING AUDIO...');
- const a=sfxBank.hit.pool[0];
- try{a.pause();a.currentTime=0;const p=a.play();
-  if(p&&p.then)p.then(()=>reportAudio('SFX STARTED — if silent, check iPhone output')).catch(e=>reportAudio('SFX ERROR: '+(e.name||'play failed')));
- }catch(e){reportAudio('SFX ERROR: '+(e.name||'play failed'));}
- if(mode!=='playing'&&bgmEnabled){
-  // One short sample of music is tested from the same genuine button gesture.
-  try{bgmTrack.currentTime=0;let result=bgmTrack.play();if(result&&result.catch)result.catch(()=>{});
-   window.setTimeout(()=>{if(mode!=='playing')bgmTrack.pause();},1200);
-  }catch(e){}
- }
-});
-
-const nativeSfx=document.getElementById('nativeSfx');
-const nativeBgm=document.getElementById('nativeBgm');
-const fileStatus=document.getElementById('fileStatus');
-function describeFile(a, label){
-  if(a.error){return label+': ERROR '+a.error.code;}
-  return label+': '+(['NOT LOADED','METADATA','CURRENT DATA','FUTURE DATA','READY'][a.readyState]||'UNKNOWN');
-}
-function checkFiles(){
-  if(fileStatus) fileStatus.textContent=describeFile(nativeSfx,'SFX')+' / '+describeFile(nativeBgm,'BGM');
-}
-for(const a of [nativeSfx,nativeBgm]){
-  for(const event of ['loadedmetadata','canplay','error','stalled','suspend'])a.addEventListener(event,checkFiles);
-  a.load();
-}
-checkFiles();
-
 const ro=new ResizeObserver(resize);ro.observe(canvas);resize();last=performance.now();requestAnimationFrame(frame);
 })();

@@ -27,3 +27,10 @@
 #audioTestBtn{font-size:11px;}
 
 .audio-test-row{display:flex;align-items:center;justify-content:center;gap:8px;min-height:25px}.audio-test-row #audioTestBtn{padding:3px 8px;border-width:1px;font-size:11px;flex:none}.audio-status{text-align:left;}
+
+.audio-debug{margin:.3rem auto;max-width:650px;padding:.4rem .6rem;border:1px solid #9c8165;border-radius:8px;background:#fff5df;font:14px sans-serif}
+.audio-debug summary{cursor:pointer;font-weight:bold}
+.audio-debug label{display:block;margin:.5rem 0}
+.audio-debug audio{display:block;width:100%;height:42px}
+.audio-debug p{font-size:12px;margin:.5rem 0}
+#fileStatus{font-size:12px;overflow-wrap:anywhere}

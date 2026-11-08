@@ -8,11 +8,17 @@
 <body>
 <main class="shell" aria-label="Mole Pop game">
   <header class="game-header">
-    <div class="heading"><span class="doodle">MOLE POP!</span><span class="subtitle">Four funny troublemakers · v0.8</span></div>
+    <div class="heading"><span class="doodle">MOLE POP!</span><span class="subtitle">Four funny troublemakers · v0.9</span></div>
     <div class="audio-controls" role="group" aria-label="Audio settings"><button id="bgmBtn" class="sound" type="button" aria-label="Toggle background music" aria-pressed="true">BGM ON</button><button id="sfxBtn" class="sound" type="button" aria-label="Toggle sound effects" aria-pressed="true">SFX ON</button></div>
   </header>
   <div class="audio-test-row"><button id="audioTestBtn" class="sound" type="button">TEST AUDIO</button><span id="audioStatus" class="audio-status" role="status" aria-live="polite">On iPhone: test sound here.</span></div>
-  <div class="hud" aria-live="off">
+  <details class="audio-debug"><summary>iPhone AUDIO CHECK</summary>
+  <p>Press the built-in play buttons below. If these are silent too, check the phone's output and whether the files loaded.</p>
+  <label>Sound effect <audio id="nativeSfx" controls preload="auto" src="audio/hit.wav"></audio></label>
+  <label>Background music <audio id="nativeBgm" controls preload="auto" src="audio/farm_bgm.wav"></audio></label>
+  <div id="fileStatus" role="status">Checking audio files...</div>
+</details>
+<div class="hud" aria-live="off">
     <div class="stat"><small>SCORE</small><strong id="score">0</strong></div>
     <div class="stat stat-time"><small>TIME</small><strong><span id="time">60</span><em>s</em></strong></div>
     <div class="stat"><small>BEST</small><strong id="best">0</strong></div>

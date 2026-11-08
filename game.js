@@ -42,7 +42,7 @@ function playSfx(name){
  try{
   a.pause();a.currentTime=0;
   const promise=a.play();
-  if(promise&&promise.catch)promise.catch(()=>reportAudio('Tap TEST AUDIO to enable sound'));
+  if(promise&&promise.catch)promise.catch(e=>reportAudio('SFX ERROR: '+(e.name||'play failed')));
  }catch(e){reportAudio('Audio blocked: tap TEST AUDIO');}
 }
 function playMusic(fromStart=false){
@@ -51,7 +51,7 @@ function playMusic(fromStart=false){
  try{
   if(fromStart)bgmTrack.currentTime=0;
   const promise=bgmTrack.play();
-  if(promise&&promise.then)promise.then(()=>reportAudio('AUDIO READY')).catch(()=>reportAudio('Audio blocked: tap TEST AUDIO'));
+  if(promise&&promise.then)promise.then(()=>reportAudio('BGM PLAYING')).catch(e=>reportAudio('BGM ERROR: '+(e.name||'play failed')));
  }catch(e){reportAudio('Audio blocked: tap TEST AUDIO');}
 }
 function stopMusic(){bgmTrack.pause();}
@@ -70,7 +70,7 @@ function sound(freq=440,duration=.085,type='sine'){
 function resize(){let r=canvas.getBoundingClientRect();W=Math.max(200,r.width);H=Math.max(150,r.height);dpr=Math.min(2,window.devicePixelRatio||1);canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);buildHoles();render();}
 function buildHoles(){holes=[];const gridW=Math.min(W*.88,H*1.06,610), gridH=Math.min(H*.81,gridW*1.04);const dx=gridW/3,dy=gridH/3;const cx=W/2,cy=H*.515;for(let i=0;i<9;i++){let c=i%3,r=Math.floor(i/3);holes.push({x:cx+(c-1)*dx,y:cy+(r-1)*dy,rx:Math.min(dx*.40,dy*.51),ry:Math.min(dy*.23,dx*.24),n:i});}}
 function random(){return Math.random();}function rand(a,b){return a+(b-a)*random();}
-function sound(freq=440,duration=.085,type='sine'){if(!sfxEnabled)return;try{audio=audioContext();if(!audio||audio.state!=='running')return;const osc=audio.createOscillator(),gain=audio.createGain();osc.type=type;osc.frequency.setValueAtTime(freq,audio.currentTime);osc.frequency.exponentialRampToValueAtTime(Math.max(50,freq*.55),audio.currentTime+duration);gain.gain.setValueAtTime(.09,audio.currentTime);gain.gain.exponentialRampToValueAtTime(.001,audio.currentTime+duration);osc.connect(gain).connect(audio.destination);osc.start();osc.stop(audio.currentTime+duration);}catch(e){}}
+// Old WebAudio sound() override removed: HTML5 audio only.
 function start(){unlockAudio();setPhase('normal');hidePhase();mode='playing';overlay.hidden=true;score=0;combo=0;clock=60;elapsed=0;spawnIn=.18;active=[];fx=[];lastHole=-1;rushAnnounced=false;calmAnnounced=false;speedAnnounced=false;last=performance.now();scoreEl.textContent='0';timeEl.textContent='60';comboEl.textContent='';playSfx('start');playMusic(true);}
 function end(){stopMusic();hidePhase();setPhase('normal');mode='ended';active=[];if(score>best){best=score;try{localStorage.setItem('mogura_best',String(best));}catch(e){}bestEl.textContent=best;}titleEl.textContent=score>=200?'AWESOME!':'TIME UP!';textEl.innerHTML=score>=200?'The moles are shocked!':'Ready for another round?';resultEl.hidden=false;resultEl.innerHTML='<strong>'+score+'</strong> PTS<small>BEST '+best+' PTS</small>';playBtn.textContent='PLAY AGAIN';overlay.hidden=false;sound(520,.15,'triangle');}
 function multiplier(){return combo>=8?2:combo>=5?1.5:combo>=3?1.2:1;}
@@ -186,8 +186,8 @@ audioTestBtn.addEventListener('click',()=>{
  setAudioSession();reportAudio('TESTING AUDIO...');
  const a=sfxBank.hit.pool[0];
  try{a.pause();a.currentTime=0;const p=a.play();
-  if(p&&p.then)p.then(()=>reportAudio('SFX PLAYING')).catch(()=>reportAudio('AUDIO BLOCKED: CHECK SILENT MODE'));
- }catch(e){reportAudio('AUDIO BLOCKED: CHECK SILENT MODE');}
+  if(p&&p.then)p.then(()=>reportAudio('SFX STARTED — if silent, check iPhone output')).catch(e=>reportAudio('SFX ERROR: '+(e.name||'play failed')));
+ }catch(e){reportAudio('SFX ERROR: '+(e.name||'play failed'));}
  if(mode!=='playing'&&bgmEnabled){
   // One short sample of music is tested from the same genuine button gesture.
   try{bgmTrack.currentTime=0;let result=bgmTrack.play();if(result&&result.catch)result.catch(()=>{});
@@ -195,5 +195,22 @@ audioTestBtn.addEventListener('click',()=>{
   }catch(e){}
  }
 });
+
+const nativeSfx=document.getElementById('nativeSfx');
+const nativeBgm=document.getElementById('nativeBgm');
+const fileStatus=document.getElementById('fileStatus');
+function describeFile(a, label){
+  if(a.error){return label+': ERROR '+a.error.code;}
+  return label+': '+(['NOT LOADED','METADATA','CURRENT DATA','FUTURE DATA','READY'][a.readyState]||'UNKNOWN');
+}
+function checkFiles(){
+  if(fileStatus) fileStatus.textContent=describeFile(nativeSfx,'SFX')+' / '+describeFile(nativeBgm,'BGM');
+}
+for(const a of [nativeSfx,nativeBgm]){
+  for(const event of ['loadedmetadata','canplay','error','stalled','suspend'])a.addEventListener(event,checkFiles);
+  a.load();
+}
+checkFiles();
+
 const ro=new ResizeObserver(resize);ro.observe(canvas);resize();last=performance.now();requestAnimationFrame(frame);
 })();

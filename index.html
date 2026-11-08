@@ -8,8 +8,8 @@
 <body>
 <main class="shell" aria-label="Mole Pop game">
   <header class="game-header">
-    <div class="heading"><span class="doodle">MOLE POP!</span><span class="subtitle">Four funny troublemakers · v0.4</span></div>
-    <button id="soundBtn" class="sound" type="button" aria-label="Toggle sound">♪ ON</button>
+    <div class="heading"><span class="doodle">MOLE POP!</span><span class="subtitle">Four funny troublemakers · v0.6</span></div>
+    <div class="audio-controls" role="group" aria-label="Audio settings"><button id="bgmBtn" class="sound" type="button" aria-label="Toggle background music" aria-pressed="true">BGM ON</button><button id="sfxBtn" class="sound" type="button" aria-label="Toggle sound effects" aria-pressed="true">SFX ON</button></div>
   </header>
   <div class="hud" aria-live="off">
     <div class="stat"><small>SCORE</small><strong id="score">0</strong></div>
@@ -18,6 +18,7 @@
   </div>
   <div class="board-wrap"><canvas id="board" aria-label="Tap or click moles popping from nine holes" role="img"></canvas>
     <div class="float-message" id="floatMsg" aria-hidden="true"></div>
+    <div class="phase-announcement" id="phaseAnnouncement" aria-hidden="true"><div class="phase-sign"><span class="phase-icon" id="phaseIcon">☁</span><strong id="phaseTitle">CHILL TIME!</strong><small id="phaseSubtitle">TAKE IT EASY</small></div></div>
   </div>
   <div class="bottom"><div class="legend"><span>🐾 MOLE +10</span><span>⭐ GOLD +30</span><span>💣 BOMB −10</span><span>👾 CRAZY +50</span></div><div id="combo" aria-live="polite" class="combo"> </div></div>
   <div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="overlayTitle">

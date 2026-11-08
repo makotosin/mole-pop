@@ -1,6 +1,6 @@
-MOLE POP! v0.4 - English browser demo
-60-second game: 0-20s warm-up, 20-35s CHILL TIME, 35-50s SPEED UP, 50-60s MOLE RUSH.
-Four mole types: NORMAL +10, GOLD +30, BOMB -10, CRAZY +50.
-Combos: 3 hits x1.2, 5 x1.5, 8+ x2.0.
-Open index.html in Chrome, Edge or Safari. Keep assets beside game.js.
-Independent prototype. Not certified for YouTube Playables.
+MOLE POP! v0.6 — 60 second arcade game
+
+Open index.html to play.
+BGM and SFX have independent ON/OFF buttons (saved in the browser).
+Original generated 8-bit farm-style melody changes for CHILL, SPEED, and RUSH phases.
+All assets included. Upload the contents of this folder to the root of your GitHub Pages repository.

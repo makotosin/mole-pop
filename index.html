@@ -8,23 +8,23 @@
 <body>
 <main class="shell" aria-label="Mole Pop game">
   <header class="game-header">
-    <div class="heading"><span class="doodle">MOLE POP!</span><span class="subtitle">Funny little troublemakers</span></div>
+    <div class="heading"><span class="doodle">MOLE POP!</span><span class="subtitle">Four funny troublemakers · v0.4</span></div>
     <button id="soundBtn" class="sound" type="button" aria-label="Toggle sound">♪ ON</button>
   </header>
   <div class="hud" aria-live="off">
     <div class="stat"><small>SCORE</small><strong id="score">0</strong></div>
-    <div class="stat stat-time"><small>TIME</small><strong><span id="time">30</span><em>s</em></strong></div>
+    <div class="stat stat-time"><small>TIME</small><strong><span id="time">60</span><em>s</em></strong></div>
     <div class="stat"><small>BEST</small><strong id="best">0</strong></div>
   </div>
   <div class="board-wrap"><canvas id="board" aria-label="Tap or click moles popping from nine holes" role="img"></canvas>
     <div class="float-message" id="floatMsg" aria-hidden="true"></div>
   </div>
-  <div class="bottom"><div class="legend"><span>🐾 MOLE +10</span><span>⭐ GOLD +30</span><span>💣 BOMB −10</span></div><div id="combo" aria-live="polite" class="combo"> </div></div>
+  <div class="bottom"><div class="legend"><span>🐾 MOLE +10</span><span>⭐ GOLD +30</span><span>💣 BOMB −10</span><span>👾 CRAZY +50</span></div><div id="combo" aria-live="polite" class="combo"> </div></div>
   <div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="overlayTitle">
     <div class="modal">
       <span class="little-star">✳　✳　✳</span>
       <h1 id="overlayTitle">MOLE POP!</h1>
-      <p id="overlayText">Hit the moles!<br>Score big in 30 seconds.<br><span class="warn">Avoid the bomb mole! 💣</span></p>
+      <p id="overlayText">Hit the moles!<br>Score big in 60 seconds.<br>Take a breather halfway through!<br><span class="warn">Avoid bombs! Find the rare CRAZY MOLE! 👾</span></p>
       <div id="result" class="result" hidden></div>
       <button id="playBtn" class="play" type="button">PLAY</button>
       <small>Click or tap to hit!</small>
